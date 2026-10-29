@@ -1,0 +1,21 @@
+name: Temporary Runner Allocation Smoke Test
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/runner-allocation-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  runner-probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - name: Verify hosted runner allocation
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "hosted runner allocated: ${RUNNER_NAME}"
+          test -n "${RUNNER_NAME:-}"
+          node --version
